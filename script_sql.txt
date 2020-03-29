@@ -1,0 +1,10 @@
+CREATE DATABASE tadsalunosarquitetura;
+
+USE tadsalunosarquitetura;
+
+CREATE TABLE alunos (
+	id 	int(3)	PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	ra	int(3),
+	nome	varchar(50),
+	curso	varchar(50)
+);

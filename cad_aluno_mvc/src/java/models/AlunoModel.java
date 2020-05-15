@@ -37,7 +37,7 @@ public class AlunoModel implements Serializable {
     public void inserir(Aluno aluno) {
         try {
             // Variável para a instrução SQL
-            String sql = "INSERT INTO alunos (ra,nome,curso) "
+            String sql = "INSERT INTO alunos (ra, nome, curso) "
                     + "VALUES (?,?,?)";
             // faz a conexão com o banco de dados, preparando
             // a string SQL

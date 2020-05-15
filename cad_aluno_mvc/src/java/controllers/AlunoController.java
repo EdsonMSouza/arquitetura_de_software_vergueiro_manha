@@ -24,19 +24,6 @@ public class AlunoController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AlunoController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AlunoController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -51,7 +38,13 @@ public class AlunoController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        // esse método trata TODAS as requisições que forem solicitadas via URL (LINK)
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
+        // variável para identificar o que deve se feito
+        //String operacao = request.getParameter("operacao");
     }
 
     /**
@@ -65,7 +58,34 @@ public class AlunoController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        // este método trata todas as requisições
+        // enviadas via POST (formulário)
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
+        // variável para identificar o que deve se feito
+        String operacao = request.getParameter("operacao");
+
+        // estrutura de seleção
+        switch (operacao) {
+            case "Inserir":
+                // cria um atributo para ser enviado para uma página
+                // JSP - é como se fosse uma variável, mas que
+                // pode ser usada fora do AlunoController
+                // setAttribute(nome_do_atributo, valor do atributo)
+                request.setAttribute("mensagem", "Inserir");
+
+                // redireciona para uma página informada
+                // ("nome_da_pagina.jsp")
+                request.getRequestDispatcher("view_mensagem.jsp").
+                        forward(request, response);
+                break;
+
+            case "Pesquisar":
+                break;
+        }
+
     }
 
     /**

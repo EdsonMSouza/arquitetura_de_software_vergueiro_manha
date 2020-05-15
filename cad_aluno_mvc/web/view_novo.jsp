@@ -8,7 +8,7 @@
     Novo Aluno
 </div>
 
-<form name="novo" method="post" action="AlunosController">
+<form name="novo" method="post" action="AlunoController">
     <div class="row">
         <div class="col-md-4 mb-3">
             <label>RA</label>
@@ -48,7 +48,7 @@
                 value="Cadastrar" />
         </div>
     </div>
-    <input 
+    <input
         type="hidden"
         name="operacao"
         value="Inserir" />

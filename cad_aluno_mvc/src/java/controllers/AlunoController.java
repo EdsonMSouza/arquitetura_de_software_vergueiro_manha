@@ -1,7 +1,8 @@
 package controllers;
 
+import beans.Aluno;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +43,16 @@ public class AlunoController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+
+        // vou escrever só para testar
+        ArrayList<Aluno> al = new ArrayList<>();
+        al.add(new Aluno(1, "Edson Melo", "TADS"));
+        al.add(new Aluno(2, "Tio Patinhas", "ECONOMIA"));
+        al.add(new Aluno(3, "Zé Carioca", "MEDICINA"));
+
+        request.setAttribute("listaAlunos", al);
+        request.getRequestDispatcher("view_listar.jsp").
+                forward(request, response);
 
         // variável para identificar o que deve se feito
         //String operacao = request.getParameter("operacao");

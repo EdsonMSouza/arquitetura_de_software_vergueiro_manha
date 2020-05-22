@@ -32,7 +32,7 @@
                             <div class="navbar-nav">
                                 <a class="nav-item nav-link" href="view_novo.jsp">Novo</a>
                                 <a class="nav-item nav-link" href="">Pesquisar</a>
-                                <a class="nav-item nav-link" href="">Listar Todos</a>
+                                <a class="nav-item nav-link" href="AlunoController">Listar Todos</a>
                             </div>
                         </div>
                     </nav>

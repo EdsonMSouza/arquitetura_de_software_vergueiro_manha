@@ -2,17 +2,23 @@ package controllers;
 
 import beans.Aluno;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.AlunoModel;
 
 /**
  *
  * @author Edson Melo de Souza
  */
 public class AlunoController extends HttpServlet {
+
+    Aluno aluno = new Aluno();
+    List<Aluno> alunos = new ArrayList<>();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,14 +51,21 @@ public class AlunoController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         // vou escrever só para testar
-        ArrayList<Aluno> al = new ArrayList<>();
-        al.add(new Aluno(1, "Edson Melo", "TADS"));
-        al.add(new Aluno(2, "Tio Patinhas", "ECONOMIA"));
-        al.add(new Aluno(3, "Zé Carioca", "MEDICINA"));
-
-        request.setAttribute("listaAlunos", al);
-        request.getRequestDispatcher("view_listar.jsp").
-                forward(request, response);
+        //ArrayList<Aluno> al = new ArrayList<>();
+        //al.add(new Aluno(1, "Edson Melo", "TADS"));
+        //al.add(new Aluno(2, "Tio Patinhas", "ECONOMIA"));
+        //al.add(new Aluno(3, "Zé Carioca", "MEDICINA"));
+        try {
+            AlunoModel am = new AlunoModel();
+            alunos = am.listar();
+            request.setAttribute("listaAlunos", alunos);
+            request.getRequestDispatcher("view_listar.jsp").
+                    forward(request, response);
+        } catch (SQLException ex) {
+            request.setAttribute("listaAlunos", ex.getMessage());
+            request.getRequestDispatcher("view_listar.jsp").
+                    forward(request, response);
+        }
 
         // variável para identificar o que deve se feito
         //String operacao = request.getParameter("operacao");
@@ -81,16 +94,28 @@ public class AlunoController extends HttpServlet {
         // estrutura de seleção
         switch (operacao) {
             case "Inserir":
-                // cria um atributo para ser enviado para uma página
-                // JSP - é como se fosse uma variável, mas que
-                // pode ser usada fora do AlunoController
-                // setAttribute(nome_do_atributo, valor do atributo)
-                request.setAttribute("mensagem", "Inserir");
+                aluno.setRa(Integer.parseInt(request.getParameter("ra")));
+                aluno.setNome(request.getParameter("nome"));
+                aluno.setCurso(request.getParameter("curso"));
 
-                // redireciona para uma página informada
-                // ("nome_da_pagina.jsp")
-                request.getRequestDispatcher("view_mensagem.jsp").
-                        forward(request, response);
+                try {
+                    /**
+                     * Repassa os valores enviados pelo formulário para o nosso
+                     * AlunoModel (Model)
+                     */
+                    AlunoModel am = new AlunoModel();
+                    am.inserir(aluno);
+
+                    // Redireciona para a View das mensagens
+                    request.setAttribute("mensagem", am.toString());
+                    request.getRequestDispatcher("view_mensagem.jsp").
+                            forward(request, response);
+
+                } catch (SQLException ex) {
+                    request.setAttribute("mensagem", ex.getMessage());
+                    request.getRequestDispatcher("view_mensagem.jsp").
+                            forward(request, response);
+                }
                 break;
 
             case "Pesquisar":

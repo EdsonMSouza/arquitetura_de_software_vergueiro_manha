@@ -4,7 +4,9 @@ import beans.Aluno;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import utils.DBConnection;
 
@@ -73,7 +75,30 @@ public class AlunoModel implements Serializable {
     }
 
     public List<Aluno> listar() {
-        return null;
+        List<Aluno> alunos = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM alunos ORDER BY nome ASC";
+            // prepara a conexão com o banco
+            PreparedStatement ps = conexao.prepareStatement(sql);
+            // realizar a consulta
+            ResultSet rs = ps.executeQuery();
+            // vamos percorrer os registros encontrados e atribuir a um objeto individual
+            while (rs.next()) { // percorre até que existam registros (próximo)
+                Aluno aluno = new Aluno();
+                aluno.setId(rs.getInt("id"));
+                aluno.setRa(rs.getInt("ra"));
+                aluno.setNome(rs.getString("nome"));
+                aluno.setCurso(rs.getString("curso"));
+
+                // inserir o objeto populado (recuperado) na lista de objetos alunos
+                alunos.add(aluno);
+            }
+            // retorna os dados
+            return alunos;
+
+        } catch (SQLException ex) {
+            throw new RuntimeException("Falha ao listar", ex);
+        }
     }
 
     @Override
